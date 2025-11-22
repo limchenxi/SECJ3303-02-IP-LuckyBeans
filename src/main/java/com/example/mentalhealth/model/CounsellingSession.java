@@ -1,0 +1,21 @@
+package com.example.mentalhealth.model;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Data
+public class CounsellingSession {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private Long studentId;
+    private Long counsellorId;
+
+    private LocalDateTime sessionDate;
+    private String status = "PENDING"; // PENDING / APPROVED / COMPLETED
+}
