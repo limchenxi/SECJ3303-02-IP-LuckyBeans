@@ -1,6 +1,7 @@
 package com.example.mentalhealth.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -10,11 +11,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Table(name = "\"user\"")
 @Getter
 @Setter
 public class User {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String username;
