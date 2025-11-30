@@ -62,13 +62,36 @@ public class SampleDataLoader {
             resource1.setTitle("Coping with Stress");
             resource1.setDescription("Tips for managing stress.");
             resource1.setUrl("https://example.com/stress");
+            resource1.setType("article");
             resourceRepo.save(resource1);
 
             EducationalResource resource2 = new EducationalResource();
             resource2.setTitle("Mindfulness Basics");
             resource2.setDescription("Introduction to mindfulness.");
             resource2.setUrl("https://example.com/mindfulness");
+            resource2.setType("guide");
             resourceRepo.save(resource2);
+
+            EducationalResource resource3 = new EducationalResource();
+            resource3.setTitle("Mental Health Podcast");
+            resource3.setDescription("Listen to experts discuss mental health topics.");
+            resource3.setUrl("https://example.com/podcast");
+            resource3.setType("podcast");
+            resourceRepo.save(resource3);
+
+            EducationalResource resource4 = new EducationalResource();
+            resource4.setTitle("Guided Meditation Video");
+            resource4.setDescription("Watch and follow a guided meditation session.");
+            resource4.setUrl("https://example.com/meditation-video");
+            resource4.setType("video");
+            resourceRepo.save(resource4);
+
+            EducationalResource resource5 = new EducationalResource();
+            resource5.setTitle("Self-care Guide");
+            resource5.setDescription("Downloadable guide for daily self-care routines.");
+            resource5.setUrl("https://example.com/selfcare-guide");
+            resource5.setType("guide");
+            resourceRepo.save(resource5);
 
             // Sample Awareness Campaigns
             AwarenessCampaign campaign1 = new AwarenessCampaign();
@@ -82,6 +105,18 @@ public class SampleDataLoader {
             campaign2.setDescription("Participate in events all month.");
             campaign2.setStatus("Upcoming");
             campaignRepo.save(campaign2);
+
+            AwarenessCampaign campaign3 = new AwarenessCampaign();
+            campaign3.setName("World Suicide Prevention Day");
+            campaign3.setDescription("Events and resources to support suicide prevention.");
+            campaign3.setStatus("Ended");
+            campaignRepo.save(campaign3);
+
+            AwarenessCampaign campaign4 = new AwarenessCampaign();
+            campaign4.setName("Youth Mental Wellness Drive");
+            campaign4.setDescription("Special activities for youth mental wellness.");
+            campaign4.setStatus("Active");
+            campaignRepo.save(campaign4);
         };
     }
 }

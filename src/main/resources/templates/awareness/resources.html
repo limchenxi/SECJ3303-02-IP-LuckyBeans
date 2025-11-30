@@ -8,29 +8,110 @@
 <body class="bg-light">
     <div th:replace="fragments/navbar :: navbar"></div>
     <div class="container py-4">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card shadow">
-                    <div class="card-header bg-info text-white">
-                        <h2 class="mb-0">Educational Resources</h2>
+        <h2 class="mb-4">Educational Resources Library</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Coping with Stress</h5>
+                        <p class="card-text">Tips for managing stress.</p>
+                        <span class="badge bg-primary">Article</span>
+                        <a href="https://example.com/stress" target="_blank" class="btn btn-info mt-2">View Resource</a>
                     </div>
-                    <div class="card-body p-0">
-                        <table class="table table-hover mb-0">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Description</th>
-                                    <th>Link</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="resource : ${resources}">
-                                    <td th:text="${resource.title}"></td>
-                                    <td th:text="${resource.description}"></td>
-                                    <td><a th:href="${resource.url}" target="_blank" class="btn btn-outline-primary btn-sm">View</a></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Mindfulness Basics</h5>
+                        <p class="card-text">Introduction to mindfulness.</p>
+                        <span class="badge bg-success">Guide</span>
+                        <a href="https://example.com/mindfulness" target="_blank" class="btn btn-info mt-2">View Resource</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Mental Health Podcast</h5>
+                        <p class="card-text">Listen to experts discuss mental health topics.</p>
+                        <span class="badge bg-warning text-dark">Podcast</span>
+                        <a href="https://example.com/podcast" target="_blank" class="btn btn-info mt-2">View Resource</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Guided Meditation Video</h5>
+                        <p class="card-text">Watch and follow a guided meditation session.</p>
+                        <span class="badge bg-danger">Video</span>
+                        <a href="https://example.com/meditation-video" target="_blank" class="btn btn-info mt-2">View Resource</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Self-care Guide</h5>
+                        <p class="card-text">Downloadable guide for daily self-care routines.</p>
+                        <span class="badge bg-success">Guide</span>
+                        <a href="https://example.com/selfcare-guide" target="_blank" class="btn btn-info mt-2">View Resource</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-5">
+            <h3 class="mb-3">Awareness Campaigns</h3>
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Mental Health Week</h5>
+                            <p class="card-text">Join our campaign to raise awareness.</p>
+                            <span class="badge bg-success">Active</span>
+                        </div>
+                        <div class="card-footer text-end">
+                            <a href="#" class="btn btn-primary">View Details</a>
+                            <a href="#" class="btn btn-success ms-2">Join</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Stress Awareness Month</h5>
+                            <p class="card-text">Participate in events all month.</p>
+                            <span class="badge bg-warning text-dark">Upcoming</span>
+                        </div>
+                        <div class="card-footer text-end">
+                            <a href="#" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">World Suicide Prevention Day</h5>
+                            <p class="card-text">Events and resources to support suicide prevention.</p>
+                            <span class="badge bg-secondary">Ended</span>
+                        </div>
+                        <div class="card-footer text-end">
+                            <a href="#" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Youth Mental Wellness Drive</h5>
+                            <p class="card-text">Special activities for youth mental wellness.</p>
+                            <span class="badge bg-success">Active</span>
+                        </div>
+                        <div class="card-footer text-end">
+                            <a href="#" class="btn btn-primary">View Details</a>
+                            <a href="#" class="btn btn-success ms-2">Join</a>
+                        </div>
                     </div>
                 </div>
             </div>

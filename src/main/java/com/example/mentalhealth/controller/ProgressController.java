@@ -34,6 +34,40 @@ public class ProgressController {
             return "error/404";
         List<MoodEntry> entries = moodEntryService.getEntriesForUser(user);
         model.addAttribute("entries", entries);
+
+        // Recent mood summary (last 7 days)
+        java.time.LocalDate today = java.time.LocalDate.now();
+        java.util.List<java.util.Map<String, Object>> recentMoods = new java.util.ArrayList<>();
+        for (int i = 6; i >= 0; i--) {
+            java.time.LocalDate date = today.minusDays(i);
+            List<MoodEntry> dayEntries = moodEntryService.getEntriesForUserByDate(user, date);
+            String mood = dayEntries.isEmpty() ? "-" : dayEntries.get(0).getMood();
+            java.util.Map<String, Object> entry = new java.util.HashMap<>();
+            entry.put("date", date.toString());
+            entry.put("mood", mood);
+            recentMoods.add(entry);
+        }
+        model.addAttribute("recentMoods", recentMoods);
+
+        // Mood chart data (convert mood to value)
+        java.util.List<java.util.Map<String, Object>> moodChartData = new java.util.ArrayList<>();
+        for (java.util.Map<String, Object> entry : recentMoods) {
+            String mood = (String) entry.get("mood");
+            int moodValue = switch (mood) {
+                case "Sad 😢" -> 0;
+                case "Neutral 😐" -> 1;
+                case "Happy 😊" -> 2;
+                case "Angry 😠" -> 3;
+                case "Excited 🤩" -> 4;
+                default -> -1;
+            };
+            java.util.Map<String, Object> chartEntry = new java.util.HashMap<>();
+            chartEntry.put("date", entry.get("date"));
+            chartEntry.put("moodValue", moodValue);
+            moodChartData.add(chartEntry);
+        }
+        model.addAttribute("moodChartData", moodChartData);
+
         return "progress/mood-tracker";
     }
 
@@ -73,6 +107,34 @@ public class ProgressController {
             return "error/404";
         List<ProgressInsight> insights = progressInsightService.getInsightsForUser(user);
         model.addAttribute("insights", insights);
+
+        // Mood chart for dashboard (last 7 days)
+        java.time.LocalDate today = java.time.LocalDate.now();
+        java.util.List<java.util.Map<String, Object>> dashboardMoodChartData = new java.util.ArrayList<>();
+        for (int i = 6; i >= 0; i--) {
+            java.time.LocalDate date = today.minusDays(i);
+            List<MoodEntry> dayEntries = moodEntryService.getEntriesForUserByDate(user, date);
+            String mood = dayEntries.isEmpty() ? "-" : dayEntries.get(0).getMood();
+            int moodValue = switch (mood) {
+                case "Sad 😢" -> 0;
+                case "Neutral 😐" -> 1;
+                case "Happy 😊" -> 2;
+                case "Angry 😠" -> 3;
+                case "Excited 🤩" -> 4;
+                default -> -1;
+            };
+            java.util.Map<String, Object> chartEntry = new java.util.HashMap<>();
+            chartEntry.put("date", date.toString());
+            chartEntry.put("moodValue", moodValue);
+            dashboardMoodChartData.add(chartEntry);
+        }
+        model.addAttribute("dashboardMoodChartData", dashboardMoodChartData);
+
+        // Example progress percent and achievements (replace with real logic)
+        model.addAttribute("progressPercent", 70);
+        model.addAttribute("achievements",
+                java.util.List.of("Completed 7 days tracking", "First entry", "Shared mood"));
+
         return "progress/dashboard";
     }
 }
