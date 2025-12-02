@@ -34,22 +34,21 @@ public class SecurityConfig {
     }
 
     @Bean
-public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http
-        .authorizeHttpRequests(auth -> auth
-            // Permit login, register, H2 console, static resources
-            .requestMatchers("/login", "/register", "/h2-console/**", "/css/**", "/js/**", "/images/**").permitAll()
-            .anyRequest().authenticated()
-        )
-        .formLogin(form -> form
-            .loginPage("/login")
-            .defaultSuccessUrl("/", true)
-        )
-        .logout(logout -> logout.permitAll())
-        .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
-        .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(auth -> auth
+                        // Permit login, register, H2 console, static resources
+                        .requestMatchers("/login", "/register", "/h2-console/**", "/css/**", "/js/**", "/images/**")
+                        .permitAll()
+                        .anyRequest().authenticated())
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/progress/dashboard", true))
+                .logout(logout -> logout.permitAll())
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
+                .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
 
-    return http.build();
-}
+        return http.build();
+    }
 
 }

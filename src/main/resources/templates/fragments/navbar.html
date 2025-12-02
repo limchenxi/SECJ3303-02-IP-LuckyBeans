@@ -8,7 +8,7 @@
 
     <div class="collapse navbar-collapse" id="mainNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
+        <!-- Home link removed -->
         <li class="nav-item"><a class="nav-link" th:href="@{/forum}">Peer Forum</a></li>
 
         <li class="nav-item" sec:authorize="hasRole('STUDENT')">
@@ -19,16 +19,12 @@
           <a class="nav-link" th:href="@{/counselling/approval}">Approve Sessions</a>
         </li>
 
-        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-          <a class="nav-link" th:href="@{/admin/users}">Admin</a>
-        </li>
-
         <!-- Progress Tracking Links -->
         <li class="nav-item">
           <a class="nav-link" th:href="@{/progress/mood}">Mood Tracker</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" th:href="@{/progress/dashboard}">Progress Dashboard</a>
+          <a class="nav-link" th:href="@{/progress/dashboard}">Dashboard</a>
         </li>
 
         <!-- Awareness & Education Links -->

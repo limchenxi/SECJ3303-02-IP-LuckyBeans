@@ -24,11 +24,6 @@ public class AuthController {
         return "login";
     }
 
-    @GetMapping("/")
-    public String home() {
-        return "redirect:/forum";
-    }
-
     @GetMapping("/register")
     public String registerPage() {
         return "register";
@@ -36,10 +31,10 @@ public class AuthController {
 
     @PostMapping("/register")
     public String registerUser(
-        @RequestParam String username,
-        @RequestParam String password,
-        @RequestParam String role) {
-        
+            @RequestParam String username,
+            @RequestParam String password,
+            @RequestParam String role) {
+
         if (userRepository.findByUsername(username).isPresent()) {
             return "redirect:/register?error=username_exists";
         }
