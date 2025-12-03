@@ -110,9 +110,10 @@
                     <span class="icon">✓</span>
                     <span>Completed</span>
                 </div>
-                <div class="module-status" th:if="${module.isLocked}">
-                    <span class="lock-icon">🔒</span>
-                </div>
+
+                <!--<div class="module-status" th:if="${module.isLocked}">-->
+                <!--<span class="lock-icon">🔒</span>-->
+                <!--</div>-->
 
                 <div class="module-header">
                     <div class="module-icon" th:text="${module.icon}">🧘</div>
@@ -141,9 +142,7 @@
                 </div>
 
                 <a th:href="@{/self-care/module/{id}(id=${module.moduleId})}" 
-                   class="module-btn"
-                   th:classappend="${module.isLocked} ? 'locked' : ''"
-                   th:text="${module.isLocked} ? '🔒 Locked' : (${module.completed} ? 'Review Module' : (${module.progress > 0} ? 'Continue' : 'Start Module'))">
+                   class="module-btn">
                     Start Module
                 </a>
             </div>
@@ -151,3 +150,6 @@
     </main>
 </body>
 </html>
+
+<!--th:classappend="${module.isLocked} ? 'locked' : ''"-->              
+<!--th:text="${module.isLocked} ? '🔒 Locked' : (${module.completed} ? 'Review Module' : (${module.progress > 0} ? 'Continue' : 'Start Module'))"-->

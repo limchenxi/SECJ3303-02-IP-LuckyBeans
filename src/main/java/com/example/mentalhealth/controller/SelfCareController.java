@@ -100,9 +100,9 @@ public class SelfCareController {
         SelfCareModule module = moduleRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Module not found"));
         
-        if (module.getIsLocked() != null && module.getIsLocked()) {
-            return "redirect:/self-care?error=module_locked";
-        }
+        //if (module.getIsLocked() != null && module.getIsLocked()) {
+            //return "redirect:/self-care?error=module_locked";
+        //}
         
         UserModuleProgress progress = progressRepository
             .findByUserIdAndModuleId(userId, id)
