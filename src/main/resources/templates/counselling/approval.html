@@ -264,8 +264,11 @@
                         <tr th:each="s : ${sessions}">
                             <td class="session-id" th:text="'#' + ${s.id}"></td>
                             <td class="student-name" th:text="${s.studentId}"></td>
-                            <td class="session-date" th:text="${#dates.format(s.sessionDate, 'MMM dd, yyyy')}"></td>
-                            <td th:text="${#dates.format(s.sessionDate, 'HH:mm')}"></td>
+                            <td class="session-date" 
+    th:text="${#temporals.format(s.sessionDate, 'MMM dd, yyyy')}"></td>
+
+<td th:text="${#temporals.format(s.sessionDate, 'HH:mm')}"></td>
+
                             <td>
                                 <span th:if="${s.counsellorId}" th:text="'Counsellor ' + ${s.counsellorId}"></span>
                                 <span th:unless="${s.counsellorId}" class="text-muted">Not Assigned</span>
