@@ -127,8 +127,8 @@
         <!-- Modules Grid -->
         <div class="modules-grid">
             <div class="module-card"
-                 th:each="module : ${allModules}"
-                 th:classappend="${module.isLocked} ? 'locked' : ''">
+                 th:each="module : ${allModules}">
+                <!--th:classappend="${module.isLocked} ? 'locked' : ''"-->
 
                 <!-- Completed -->
                 <div class="module-status"
