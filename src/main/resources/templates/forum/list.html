@@ -1,40 +1,125 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Peer Forum</title>
+    <title>Peer Forum Module</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .search-box { border-radius: 12px; padding: 12px 18px; }
+        .category-chip { padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; }
+        .category-chip.active { background-color: #0d6efd; color: white; }
+        .category-chip.inactive { background-color: #f1f3f5; color: #333; }
+        .forum-card { border-radius: 14px; }
+        .badge-category { background-color: #e9ecef; color: #333; border-radius: 20px; padding: 3px 10px; font-size: 0.75rem; }
+    </style>
 </head>
+
 <body>
+
     <div th:replace="fragments/navbar :: navbar"></div>
 
     <div class="container py-5">
+
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="mb-0">Peer Forum</h2>
-            <a class="btn btn-primary" th:href="@{/forum/new}">Create Post</a>
+            <h2 class="fw-bold">Peer Forum Module</h2>
+            <a class="btn btn-primary px-4" href="/forum/new">+ Create Post</a>
         </div>
 
-        <div class="row gy-3">
-            <div class="col-12" th:if="${posts == null or posts.isEmpty()}">
-                <div class="alert alert-info">No posts yet — be the first to share.</div>
-            </div>
+        <div class="mb-4">
+            <input type="text" class="form-control search-box" placeholder="Search posts...">
+        </div>
 
-            <div class="col-md-6" th:each="p : ${posts}">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="${p.title}">Post title</h5>
-                        <p class="card-text text-truncate" th:text="${p.content}">Preview content...</p>
-                        <a th:href="@{'/forum/post/' + ${p.id}}" class="stretched-link"></a>
+        <div class="d-flex gap-2 mb-4 flex-wrap">
+            <span class="category-chip active">All</span>
+            <span class="category-chip inactive">Anxiety</span>
+            <span class="category-chip inactive">Depression</span>
+            <span class="category-chip inactive">Stress</span>
+            <span class="category-chip inactive">Success Story</span>
+            <span class="category-chip inactive">Community</span>
+            <span class="category-chip inactive">General</span>
+        </div>
+
+        <!-- MOCK POSTS (NO THYMELEAF) -->
+        <div class="row gy-4">
+
+            <!-- MOCK POST 1 -->
+            <div class="col-12">
+                <div class="card forum-card shadow-sm p-3 position-relative">
+
+                    <div class="position-absolute top-0 end-0 m-3">
+                        <span class="badge-category">Anxiety</span>
                     </div>
-                    <div class="card-footer text-muted small">
-                        <span th:text="${#dates.format(p.createdAt,'MMM dd, yyyy HH:mm')}"></span>
+
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="bg-secondary text-white rounded-circle d-flex justify-content-center align-items-center"
+                             style="width:45px; height:45px; font-weight:600;">
+                            AM
+                        </div>
+
+                        <div>
+                            <h5 class="mb-0 fw-semibold">Alex M.</h5>
+                            <span class="text-muted small">Dec 01, 2025 15:21</span>
+                        </div>
                     </div>
+
+                    <h5 class="fw-bold">How do you manage anxiety during exams?</h5>
+
+                    <p class="text-muted mb-3">
+                        I’ve been struggling with exam pressure and overthinking. How do you cope with stress?
+                    </p>
+
+                    <div class="d-flex gap-3 text-muted small">
+                        <span><i class="bi bi-hand-thumbs-up"></i> 12</span>
+                        <span><i class="bi bi-chat"></i> 4</span>
+                    </div>
+
+                    <a href="/forum/post/1" class="stretched-link"></a>
                 </div>
             </div>
+
+            <!-- MOCK POST 2 -->
+            <div class="col-12">
+                <div class="card forum-card shadow-sm p-3 position-relative">
+
+                    <div class="position-absolute top-0 end-0 m-3">
+                        <span class="badge-category">Success Story</span>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="bg-secondary text-white rounded-circle d-flex justify-content-center align-items-center"
+                             style="width:45px; height:45px; font-weight:600;">
+                            JH
+                        </div>
+
+                        <div>
+                            <h5 class="mb-0 fw-semibold">Jasmine H.</h5>
+                            <span class="text-muted small">Nov 28, 2025 10:11</span>
+                        </div>
+                    </div>
+
+                    <h5 class="fw-bold">Finally overcame my social anxiety!</h5>
+
+                    <p class="text-muted mb-3">
+                        Sharing how I slowly learned to talk to people confidently. Hope this helps someone.
+                    </p>
+
+                    <div class="d-flex gap-3 text-muted small">
+                        <span><i class="bi bi-hand-thumbs-up"></i> 55</span>
+                        <span><i class="bi bi-chat"></i> 18</span>
+                    </div>
+
+                    <a href="/forum/post/2" class="stretched-link"></a>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.js"></script>
+
 </body>
 </html>
