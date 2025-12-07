@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,14 +19,15 @@ import com.example.mentalhealth.model.AssessmentQuestion;
 import com.example.mentalhealth.model.Option;
 import com.example.mentalhealth.model.Question;
 import com.example.mentalhealth.model.QuestionForm;
+import com.example.mentalhealth.model.User;
 import com.example.mentalhealth.model.UserAssessment;
 import com.example.mentalhealth.model.UserAssessmentAnswer;
 import com.example.mentalhealth.model.UserProgress;
-import com.example.mentalhealth.model.UserStudent;
 import com.example.mentalhealth.repository.AssessmentOptionRepository;
 import com.example.mentalhealth.repository.AssessmentQuestionRepository;
 import com.example.mentalhealth.repository.UserAssessmentAnswerRepository;
 import com.example.mentalhealth.repository.UserAssessmentRepository;
+import com.example.mentalhealth.repository.UserRepository;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -36,6 +39,9 @@ public class SymptomsController {
     private AssessmentQuestionRepository questionRepository;
 
     @Autowired
+    private UserRepository userRepository;
+    
+    @Autowired
     private AssessmentOptionRepository optionRepository;
 
     @Autowired
@@ -45,15 +51,16 @@ public class SymptomsController {
     private UserAssessmentAnswerRepository answerRepository;
 
     @GetMapping
-    public String symptoms(HttpSession session, Model model) {
-        Integer userId = getOrCreateUserId(session);
-
-        UserStudent user = new UserStudent();
-        user.setUserId(userId);
-        user.setFullName("John Smith");
-        user.setInitial("J");
+    public String symptoms(@AuthenticationPrincipal UserDetails userDetails,
+                          HttpSession session, 
+                          Model model) {
+        User user = userRepository.findByEmail(userDetails.getUsername())
+            .orElseThrow(() -> new RuntimeException("User not found"));
+    
+        Integer userId = user.getUserId();
+        
         model.addAttribute("user", user);
-
+        
         UserProgress userProgress = new UserProgress("7-day self-care streak!");
         model.addAttribute("userProgress", userProgress);
 
@@ -67,13 +74,14 @@ public class SymptomsController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(HttpSession session, Model model) {
-        Integer userId = getOrCreateUserId(session);
+    public String dashboard(@AuthenticationPrincipal UserDetails userDetails,
+                           HttpSession session, 
+                           Model model) {
+        User user = userRepository.findByEmail(userDetails.getUsername())
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        Integer userId = user.getUserId();
 
-        UserStudent user = new UserStudent();
-        user.setUserId(userId);
-        user.setFullName("John Smith");
-        user.setInitial("J");
         model.addAttribute("user", user);
 
         UserProgress userProgress = new UserProgress("7-day self-care streak!");
@@ -153,8 +161,12 @@ public class SymptomsController {
 
     @PostMapping("/submit")
     public String submitAnswer(@ModelAttribute QuestionForm questionForm,
+                               @AuthenticationPrincipal UserDetails userDetails,
                                HttpSession session) {
-        Integer userId = getOrCreateUserId(session);
+        User user = userRepository.findByEmail(userDetails.getUsername())
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        Integer userId = user.getUserId();
+        
         Integer currentQuestion = (Integer) session.getAttribute("currentQuestion");
 
         if (currentQuestion == null) {
@@ -262,14 +274,5 @@ public class SymptomsController {
         else if (score <= 9) return "mild";
         else if (score <= 14) return "moderate";
         else return "severe";
-    }
-
-    private Integer getOrCreateUserId(HttpSession session) {
-        Integer userId = (Integer) session.getAttribute("userId");
-        if (userId == null) {
-            userId = 1;
-            session.setAttribute("userId", userId);
-        }
-        return userId;
     }
 }

@@ -1,5 +1,7 @@
 package com.example.mentalhealth.model;
 
 public enum Role {
-    STUDENT, COUNSELLOR, ADMIN
+    STUDENT,
+    COUNSELOR,  // ADDED
+    ADMIN       // ADDED
 }

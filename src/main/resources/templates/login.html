@@ -16,10 +16,14 @@
     <div class="card-body">
       <h4 class="card-title mb-3">Sign in to Mental Health</h4>
 
+      <div th:if="${error}" class="alert alert-danger" role="alert">
+        <span th:text="${error}">Invalid credentials</span>
+      </div>
+
       <form method="post" th:action="@{/login}">
         <div class="mb-3">
-          <label class="form-label">Username</label>
-          <input class="form-control" name="username" placeholder="Enter username" required />
+          <label class="form-label">Email</label>
+          <input class="form-control" name="email" type="email" placeholder="Enter email" required />
         </div>
 
         <div class="mb-3">

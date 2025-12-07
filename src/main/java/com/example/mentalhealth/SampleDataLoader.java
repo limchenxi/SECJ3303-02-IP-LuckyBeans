@@ -18,7 +18,7 @@ public class SampleDataLoader {
             AwarenessCampaignRepository campaignRepo) {
         return args -> {
             // Sample user
-            User user = userRepo.findByUsername("testuser").orElse(null);
+            User user = userRepo.findByEmail("testuser@test.com").orElse(null);
             if (user == null)
                 return;
 

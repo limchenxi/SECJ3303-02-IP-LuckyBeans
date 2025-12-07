@@ -1,17 +1,11 @@
 package com.example.mentalhealth.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "\"user\"")
+@Table(name = "`user`")
 @Getter
 @Setter
 public class User {
@@ -20,9 +14,25 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
+    @Column(name = "full_name")
+    private String fullName;
+
+    @Column(name = "email", unique = true)     
+    private String email;
+
+    @Column(name = "password")  
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Column(name = "active")
+    private boolean active;
+
+    @Column(name = "created_at")
+    private java.time.LocalDateTime createdAt;
+    
+    public Integer getUserId() {
+        return id != null ? id.intValue() : null;
+    }
 }

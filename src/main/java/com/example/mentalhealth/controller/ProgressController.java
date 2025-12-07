@@ -29,7 +29,7 @@ public class ProgressController {
     // UC016: Complete Mood Tracker (Student)
     @GetMapping("/mood")
     public String moodTracker(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        User user = userRepository.findByUsername(userDetails.getUsername()).orElse(null);
+        User user = userRepository.findByEmail(userDetails.getUsername()).orElse(null);  // ✅ 改这里
         if (user == null)
             return "error/404";
         List<MoodEntry> entries = moodEntryService.getEntriesForUser(user);
@@ -75,7 +75,7 @@ public class ProgressController {
     public String submitMood(@AuthenticationPrincipal UserDetails userDetails,
             @RequestParam String mood,
             @RequestParam(required = false) String note) {
-        User user = userRepository.findByUsername(userDetails.getUsername()).orElse(null);
+        User user = userRepository.findByEmail(userDetails.getUsername()).orElse(null);  // ✅ 改这里
         if (user == null)
             return "error/404";
         MoodEntry entry = new MoodEntry();
@@ -102,9 +102,12 @@ public class ProgressController {
     // UC018: View Progress Insights Dashboard
     @GetMapping("/dashboard")
     public String progressDashboard(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        User user = userRepository.findByUsername(userDetails.getUsername()).orElse(null);
+        User user = userRepository.findByEmail(userDetails.getUsername()).orElse(null);
         if (user == null)
-            return "error/404";
+            return "redirect:/login";
+
+        model.addAttribute("user", user);
+        
         List<ProgressInsight> insights = progressInsightService.getInsightsForUser(user);
         model.addAttribute("insights", insights);
 

@@ -4,6 +4,8 @@ import com.example.mentalhealth.model.*;
 import com.example.mentalhealth.repository.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,9 @@ import java.util.stream.Collectors;
 public class SelfCareController {
     
     @Autowired
+    private UserRepository userRepository;
+    
+    @Autowired
     private SelfCareModuleRepository moduleRepository;
     
     @Autowired
@@ -25,15 +30,14 @@ public class SelfCareController {
     
     @GetMapping
     public String selfCare(@RequestParam(required = false) String category,
-                          HttpSession session,
+                          @AuthenticationPrincipal UserDetails userDetails,  // ✅ 添加这个
                           Model model) {
+       
+        User user = userRepository.findByEmail(userDetails.getUsername())
+            .orElseThrow(() -> new RuntimeException("User not found"));
+                            
+        Integer userId = user.getUserId();
         
-        Integer userId = getOrCreateUserId(session);
-        
-        UserStudent user = new UserStudent();
-        user.setUserId(userId);
-        user.setFullName("John Smith");
-        user.setInitial("J");
         model.addAttribute("user", user);
         
         UserProgress userProgress = new UserProgress("7-day self-care streak!");
@@ -93,16 +97,14 @@ public class SelfCareController {
     
     @GetMapping("/module/{id}")
     public String viewModule(@PathVariable Integer id,
-                            HttpSession session,
+                            @AuthenticationPrincipal UserDetails userDetails,  // ✅ 添加这个
                             Model model) {
-        Integer userId = getOrCreateUserId(session);
+        User user = userRepository.findByEmail(userDetails.getUsername())
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        Integer userId = user.getUserId();
         
         SelfCareModule module = moduleRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Module not found"));
-        
-        //if (module.getIsLocked() != null && module.getIsLocked()) {
-            //return "redirect:/self-care?error=module_locked";
-        //}
         
         UserModuleProgress progress = progressRepository
             .findByUserIdAndModuleId(userId, id)
@@ -130,9 +132,11 @@ public class SelfCareController {
     @ResponseBody
     public String updateProgress(@PathVariable Integer id,
                                  @RequestParam Integer progress,
-                                 HttpSession session) {
+                                 @AuthenticationPrincipal UserDetails userDetails) {  // ✅ 改这里
         try {
-            Integer userId = getOrCreateUserId(session);
+            User user = userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+            Integer userId = user.getUserId();
             
             if (progress < 0 || progress > 100) {
                 return "{\"success\": false, \"message\": \"Progress must be between 0 and 100\"}";
@@ -170,9 +174,11 @@ public class SelfCareController {
     @PostMapping("/module/{id}/reset")
     @ResponseBody
     public String resetProgress(@PathVariable Integer id,
-                               HttpSession session) {
+                               @AuthenticationPrincipal UserDetails userDetails) {  // ✅ 改这里
         try {
-            Integer userId = getOrCreateUserId(session);
+            User user = userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+            Integer userId = user.getUserId();
             
             progressRepository.findByUserIdAndModuleId(userId, id)
                 .ifPresent(progress -> {
@@ -243,14 +249,5 @@ public class SelfCareController {
         }
 
         return recommendations;
-    }
-    
-    private Integer getOrCreateUserId(HttpSession session) {
-        Integer userId = (Integer) session.getAttribute("userId");
-        if (userId == null) {
-            userId = 1;
-            session.setAttribute("userId", userId);
-        }
-        return userId;
     }
 }
